@@ -3,11 +3,15 @@
 <package format="3">
   <name>rh_plus_2_axis_manipulator</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="chanhuirobot@todo.todo">chanhuirobot</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Roboin Humanoid Project #1 Hardware : 2-Axis-Manipulator</description>
+  <maintainer email="chanhui.robot@gmail.com">chanhuirobot</maintainer>
+  <license>The GNU General Public License</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

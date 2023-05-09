@@ -7,9 +7,37 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+
+
+
+# Include cpp "include" directory
+include_directories(include)
+
+# Create cpp executable
+# for terminal $ ros2 run rh_plus_2_axis_manipulator {here}
+add_executable(camera_node src/camera_node.cpp)
+ament_target_dependencies(camera_node rclcpp)
+
+# install cpp executables
+install(TARGET
+  camera_node
+  DESTINATION lib/${PROJECT_NAME})
+
+
+
+# install python modules
+ament_python_install_packages(${PROJECT_NAME})
+
+# install Python executables
+install(PROGRAMS
+  rh_plus_2_axis_manipulator/vision_process_node.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
