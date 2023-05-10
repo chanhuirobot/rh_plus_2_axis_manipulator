@@ -19,7 +19,7 @@ include_directories(include)
 # Create cpp executable
 # for terminal $ ros2 run rh_plus_2_axis_manipulator {here}
 add_executable(camera_node src/camera_node.cpp)
-ament_target_dependencies(camera_node rclcpp std_msgs)
+ament_target_dependencies(camera_node rclcpp std_msgs OpenCV)
 
 # install cpp executables
 install(TARGETS

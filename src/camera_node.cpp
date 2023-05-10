@@ -1,44 +1,22 @@
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
-
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
-
-using namespace std::chrono_literals;
-
-class HelloworldPublisher : public rclcpp::Node
-{
-public:
-  HelloworldPublisher()
-  : Node("helloworld_publisher"), count_(0)
-  {
-    auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(10));
-    helloworld_publisher_ = this->create_publisher<std_msgs::msg::String>(
-      "helloworld", qos_profile);
-    timer_ = this->create_wall_timer(
-      1s, std::bind(&HelloworldPublisher::publish_helloworld_msg, this));
-  }
-
-private:
-  void publish_helloworld_msg()
-  {
-    auto msg = std_msgs::msg::String();
-    msg.data = "Hello World: " + std::to_string(count_++);
-    RCLCPP_INFO(this->get_logger(), "Published message: '%s'", msg.data.c_str());
-    helloworld_publisher_->publish(msg);
-  }
-  rclcpp::TimerBase::SharedPtr timer_;
-  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr helloworld_publisher_;
-  size_t count_;
-};
+#include "usb_camera_driver.hpp"
 
 int main(int argc, char * argv[])
 {
-  rclcpp::init(argc, argv);
-  auto node = std::make_shared<HelloworldPublisher>();
-  rclcpp::spin(node);
-  rclcpp::shutdown();
-  return 0;
+    // Force flush of the stdout buffer.
+    // This ensures a correct sync of all prints
+    // even when executed simultaneously within a launch file
+    setvbuf(stdout, NULL, _IONBF, BUFSIZ);
+
+    rclcpp::init(argc, argv);
+    rclcpp::executors::SingleThreadedExecutor exec;
+
+    const rclcpp::NodeOptions options;
+    auto usb_camera_driver = std::make_shared<usb_camera_driver::CameraDriver>(options);
+
+    exec.add_node(usb_camera_driver);
+
+    exec.spin();
+
+    rclcpp::shutdown();
+    return 0;
 }
