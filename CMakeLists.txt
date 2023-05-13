@@ -1,14 +1,33 @@
+################################################################################
+# Set minimum required version of cmake, project name and compile options
+################################################################################
 cmake_minimum_required(VERSION 3.8)
-project(rh_plus_2_axis_manipulator)
+project(rhplus_2axis_manipulator)
+
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
+
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
+################################################################################
+# Find and load build settings from external packages
+################################################################################
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_python REQUIRED)
+find_package(msg_action_interfaces REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
+
+find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -16,23 +35,45 @@ find_package(sensor_msgs REQUIRED)
 find_package(camera_info_manager REQUIRED)
 find_package(image_transport REQUIRED)
 
-
-# Include cpp "include" directory
 include_directories(include)
 
-# Create cpp executable
-# for terminal $ ros2 run rh_plus_2_axis_manipulator {here}
 add_executable(camera_node
   src/camera_node.cpp
   src/usb_camera_driver.cpp)
-ament_target_dependencies(camera_node rclcpp std_msgs OpenCV sensor_msgs camera_info_manager image_transport)
+ament_target_dependencies(camera_node 
+rclcpp std_msgs OpenCV sensor_msgs camera_info_manager image_transport)
+
+add_executable(angular_control_node src/angular_control.cpp)
+ament_target_dependencies(angular_control_node
+  "msg_action_interfaces"
+  "rclcpp"
+  "rclcpp_action"
+)
+
+add_executable(servo_control_node
+  src/servo_command.cpp
+  src/servo_control.cpp
+)
+ament_target_dependencies(servo_control_node
+  "msg_action_interfaces"
+  "rclcpp"
+  "rclcpp_action"
+)
 
 # install cpp executables
 install(TARGETS
+  servo_control_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS
+  angular_control_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS
   camera_node
   DESTINATION lib/${PROJECT_NAME})
-
-
 
 # install python modules
 ament_python_install_package(${PROJECT_NAME})
@@ -43,18 +84,12 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-
-
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
-  set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
-  set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+################################################################################
+# Find and load build settings from external packages
+################################################################################
 ament_package()

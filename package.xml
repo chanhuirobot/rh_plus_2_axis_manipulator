@@ -1,16 +1,18 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>rh_plus_2_axis_manipulator</name>
-  <version>0.0.0</version>
-  <description>Roboin Humanoid Project #1 Hardware : 2-Axis-Manipulator</description>
-  <maintainer email="chanhui.robot@gmail.com">chanhuirobot</maintainer>
-  <license>The GNU General Public License</license>
+  <name>rhplus_2axis_manipulator</name>
+  <version>0.0.1</version>
+  <description>RH+ 2axis manipulator</description>
+  <maintainer email="ppp6131@yonsei.ac.kr">minipin</maintainer>
+  <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
 
   <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>msg_action_interfaces</depend>
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
   <depend>OpenCV</depend>
