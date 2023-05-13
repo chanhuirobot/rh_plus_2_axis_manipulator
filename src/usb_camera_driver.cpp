@@ -3,11 +3,10 @@
 #include <memory>
 #include <string>
 
-#include "usb_camera_driver.hpp"
+#include "rh_plus_2_axis_manipulator/usb_camera_driver.hpp"
 
 using namespace std::chrono_literals;
-namespace usb_camera_driver
-{
+
 // 생성자 구현
 CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_camera_driver", node_options)
 {
@@ -125,11 +124,4 @@ void CameraDriver::ImageCallback()
         camera_info_pub_.publish(image_msg_, camera_info_msg_);
     }
 }
-} // namespace usb_camera_driver
 
-#include "rclcpp_components/register_node_macro.hpp"
-
-// Register the component with class_loader
-// This acts as a sort of entry point, allowing the component to be discoverable when its library
-// is being loaded into a running process
-RCLCPP_COMPONENTS_REGISTER_NODE(usb_camera_driver::CameraDriver)

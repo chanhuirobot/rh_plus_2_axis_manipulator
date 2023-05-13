@@ -10,15 +10,12 @@
 #include "sensor_msgs/msg/camera_info.hpp"
 
 #include "sensor_msgs/image_encodings.hpp"
-
 #include <camera_info_manager/camera_info_manager.hpp>
 #include <image_transport/image_transport.hpp>
 
 #include "opencv2/highgui/highgui.hpp"
 #include <opencv2/imgproc.hpp>
 
-namespace usb_camera_driver
-{
 
 class CameraDriver : public rclcpp::Node {
 public:
@@ -54,7 +51,5 @@ private:
 
     void ImageCallback();
 };
-
-}
 
 #endif // USB_CAMERA_DRIVER__CAMERA_DRIVER_HPP_

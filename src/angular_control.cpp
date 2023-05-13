@@ -6,29 +6,27 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-#include "msg_action_interfaces/msg/servo_read_data.hpp"
-#include "msg_action_interfaces/msg/twoaxis_ik.hpp"
-#include "msg_action_interfaces/action/twoaxis_servo.hpp"
+#include "rh_plus_interface/msg/servo_read_data.hpp"
+#include "rh_plus_interface/msg/twoaxis_ik.hpp"
+#include "rh_plus_interface/action/twoaxis_servo.hpp"
+
+#include "rh_plus_2_axis_manipulator/global_variable.hpp"
 
 
-#define SERVO_NUM 2
-
-namespace Twoaxis_angular_control
-{
-class AngularControl : public rclcpp::Node
+class AngleControlNode : public rclcpp::Node
 {
   public:
 
     // To use the function without re-entering the namespace
-    using IkAngle = msg_action_interfaces::msg::TwoaxisIk;
-    using ReadData = msg_action_interfaces::msg::ServoReadData;
-    using AngleControl = msg_action_interfaces::action::TwoaxisServo;
+    using IkAngle = rh_plus_interface::msg::TwoaxisIk;
+    using ReadData = rh_plus_interface::msg::ServoReadData;
+    using AngleControl = rh_plus_interface::action::TwoaxisServo;
     using GoalHandleRotate = rclcpp_action::ClientGoalHandle<AngleControl>;
 
     // To receive ik topic;s content
     int ik_result[SERVO_NUM] = {0,};
 
-    explicit AngularControl(const rclcpp::NodeOptions & node_options = rclcpp::NodeOptions())
+    explicit AngleControlNode(const rclcpp::NodeOptions & node_options = rclcpp::NodeOptions())
     : Node("angular_control_client", node_options)
 
     {
@@ -42,15 +40,15 @@ class AngularControl : public rclcpp::Node
         // per 500ms, to transmit goal we set Timer
         this->timer_ = this->create_wall_timer(
           std::chrono::milliseconds(500),
-          std::bind(&AngularControl::send_goal, this));
+          std::bind(&AngleControlNode::send_goal, this));
 
 
         // IK Topic received
         ik_result_subscriber_ = this->create_subscription<IkAngle>(
-            "ik_result",10,std::bind(&Twoaxis_angular_control::AngularControl::topic_callback_ik,this,std::placeholders::_1));
+            "ik_result",10,std::bind(&AngleControlNode::topic_callback_ik,this,std::placeholders::_1));
         // Servo Topic received
         servo_result_subscriber_ = this->create_subscription<ReadData>(
-          "servo_data",10,std::bind(&Twoaxis_angular_control::AngularControl::topic_callback_servo,this,std::placeholders::_1));
+          "servo_data",10,std::bind(&AngleControlNode::topic_callback_servo,this,std::placeholders::_1));
     }
 
     void send_goal()
@@ -75,11 +73,11 @@ class AngularControl : public rclcpp::Node
 
       auto send_goal_options = rclcpp_action::Client<AngleControl>::SendGoalOptions();
       send_goal_options.goal_response_callback =
-        std::bind(&AngularControl::goal_response_callback, this, _1);
+        std::bind(&AngleControlNode::goal_response_callback, this, _1);
       send_goal_options.feedback_callback =
-        std::bind(&AngularControl::feedback_callback, this, _1, _2);
+        std::bind(&AngleControlNode::feedback_callback, this, _1, _2);
       send_goal_options.result_callback =
-        std::bind(&AngularControl::result_callback, this, _1);
+        std::bind(&AngleControlNode::result_callback, this, _1);
       this->client_ptr_->async_send_goal(goal_msg, send_goal_options);
 
     }
@@ -170,15 +168,14 @@ class AngularControl : public rclcpp::Node
         rclcpp::shutdown();
       }
 
-}; // class AngularControl
+}; // class AngleControlNode
 
-} // namespace Twoaxis_angular_control
 
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc,argv);
-  rclcpp::spin(std::make_shared<Twoaxis_angular_control::AngularControl>());
+  rclcpp::spin(std::make_shared<AngleControlNode>());
   rclcpp::shutdown();
 
   return 0;

@@ -1,4 +1,4 @@
-#include "usb_camera_driver.hpp"
+#include "rh_plus_2_axis_manipulator/usb_camera_driver.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -11,7 +11,7 @@ int main(int argc, char * argv[])
     rclcpp::executors::SingleThreadedExecutor exec;
 
     const rclcpp::NodeOptions options;
-    auto usb_camera_driver = std::make_shared<usb_camera_driver::CameraDriver>(options);
+    auto usb_camera_driver = std::make_shared<CameraDriver>(options);
 
     exec.add_node(usb_camera_driver);
 

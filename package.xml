@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>rhplus_2axis_manipulator</name>
+  <name>rh_plus_2_axis_manipulator</name>
   <version>0.0.1</version>
   <description>RH+ 2axis manipulator</description>
   <maintainer email="ppp6131@yonsei.ac.kr">minipin</maintainer>
@@ -12,12 +12,12 @@
 
   <depend>rclcpp</depend>
   <depend>rclcpp_action</depend>
-  <depend>msg_action_interfaces</depend>
+  <depend>rh_plus_interface</depend>
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
   <depend>OpenCV</depend>
   <depend>sensor_msgs</depend>
-  <depend>camera_info_manager</depend>
+  <!-- <depend>camera_info_manager</depend> -->
   <depend>image_transport</depend>
 
   <test_depend>ament_lint_auto</test_depend>

@@ -8,24 +8,22 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-#include "msg_action_interfaces/msg/servo_read_data.hpp"
-#include "msg_action_interfaces/action/twoaxis_servo.hpp"
+#include "rh_plus_interface/msg/servo_read_data.hpp"
+#include "rh_plus_interface/action/twoaxis_servo.hpp"
 
-#include "rhplus_2axis_manipulator/servo_command.hpp"
+#include "rh_plus_2_axis_manipulator/servo_command.hpp"
+#include "rh_plus_2_axis_manipulator/global_variable.hpp"
 
-#define SERVO_NUM 2
-#define ROTATION_COUNT 5
 
-namespace Twoaxis_servo_control
-{
-class ServoControl : public rclcpp::Node
+
+class ServoControlNode : public rclcpp::Node
 {
   public:
-    using ReadData = msg_action_interfaces::msg::ServoReadData;
-    using AngleControl = msg_action_interfaces::action::TwoaxisServo;
+    using ReadData = rh_plus_interface::msg::ServoReadData;
+    using AngleControl = rh_plus_interface::action::TwoaxisServo;
     using GoalHandleRotate = rclcpp_action::ServerGoalHandle<AngleControl>;
 
-    explicit ServoControl(const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
+    explicit ServoControlNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
     : Node("motor_control", options)
     {
       using namespace std::placeholders;
@@ -36,16 +34,16 @@ class ServoControl : public rclcpp::Node
         this->get_node_logging_interface(),
         this->get_node_waitables_interface(),
         "motor_control",
-        std::bind(&ServoControl::handle_goal, this, _1, _2),
-        std::bind(&ServoControl::handle_cancel, this, _1),
-        std::bind(&ServoControl::handle_accepted, this, _1));
+        std::bind(&ServoControlNode::handle_goal, this, _1, _2),
+        std::bind(&ServoControlNode::handle_cancel, this, _1),
+        std::bind(&ServoControlNode::handle_accepted, this, _1));
 
 
         // Topic pub
         motor_data_pub_ = this->create_publisher<ReadData>("topic", 10);
         timer_ = this->create_wall_timer(
           std::chrono::microseconds(500),
-          std::bind(&Twoaxis_servo_control::ServoControl::timer_callback, this));
+          std::bind(&ServoControlNode::timer_callback, this));
 
     }
 
@@ -107,7 +105,7 @@ class ServoControl : public rclcpp::Node
       {
         using namespace std::placeholders;
         // this needs to return quickly to avoid blocking the executor, so spin up a new thread
-        std::thread{std::bind(&ServoControl::execute, this, _1), goal_handle}.detach();
+        std::thread{std::bind(&ServoControlNode::execute, this, _1), goal_handle}.detach();
       }
 
       void execute(const std::shared_ptr<GoalHandleRotate> goal_handle)
@@ -145,9 +143,7 @@ class ServoControl : public rclcpp::Node
           RCLCPP_INFO(this->get_logger(), "Goal succeeded");
         }
       }
-  }; // class ServoControl
-
-} // namespace Servo_motor_control
+  }; // class ServoControlNode
 
 
 
@@ -157,7 +153,7 @@ int main(int argc, char * argv[])
   // ROS 2 initializes
   rclcpp::init(argc, argv);
   // starts processing data from the node, including callbacks from the timer
-  rclcpp::spin(std::make_shared<Twoaxis_servo_control::ServoControl>());
+  rclcpp::spin(std::make_shared<ServoControlNode>());
   rclcpp::shutdown();
   return 0;
 }
