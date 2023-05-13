@@ -11,6 +11,10 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(camera_info_manager REQUIRED)
+find_package(image_transport REQUIRED)
 
 
 # Include cpp "include" directory
@@ -18,8 +22,10 @@ include_directories(include)
 
 # Create cpp executable
 # for terminal $ ros2 run rh_plus_2_axis_manipulator {here}
-add_executable(camera_node src/camera_node.cpp)
-ament_target_dependencies(camera_node rclcpp std_msgs OpenCV)
+add_executable(camera_node
+  src/camera_node.cpp
+  src/usb_camera_driver.cpp)
+ament_target_dependencies(camera_node rclcpp std_msgs OpenCV sensor_msgs camera_info_manager image_transport)
 
 # install cpp executables
 install(TARGETS
