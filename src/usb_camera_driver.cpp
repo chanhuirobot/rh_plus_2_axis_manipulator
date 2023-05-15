@@ -27,7 +27,7 @@ CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_
     cinfo_manager_ = std::make_shared<camera_info_manager::CameraInfoManager>(this);
 
     /* get ROS2 config parameter for camera calibration file */
-    auto camera_calibration_file_param_ = this->declare_parameter("camera_calibration_file", "file://config/camera.yaml");
+    auto camera_calibration_file_param_ = this->declare_parameter("camera_calibration_file", "file:///home/chanhuirobot/robot_ws/src/rh_plus_2_axis_manipulator/config/camera.yaml");
     cinfo_manager_->loadCameraInfo(camera_calibration_file_param_);
 
     // 비디오 캡쳐 객체 다루기
