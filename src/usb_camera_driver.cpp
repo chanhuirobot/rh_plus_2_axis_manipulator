@@ -28,7 +28,7 @@ CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_
 
     /* get ROS2 config parameter for camera calibration file */
     std::string file_path;
-    file_path = "file:///home/" + std::string(getenv("USER")) + "/.ros/camera_info/camera.yaml";
+    file_path = "file:///home/" + std::string(getenv("USER")) + "/.ros/config/camera.yaml";
     auto camera_calibration_file_param_ = this->declare_parameter("camera_calibration_file", file_path);
     cinfo_manager_->loadCameraInfo(camera_calibration_file_param_);
 
