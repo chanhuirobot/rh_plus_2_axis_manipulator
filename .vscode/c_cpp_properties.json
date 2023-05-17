@@ -5,8 +5,8 @@
         "includePath": [
           "${default}",
           "${workspaceFolder}/**",
-          "/home/chanhuirobot/robot_ws/install/**",
-          "/opt/ros/humble/include/**"
+          "/opt/ros/humble/include/**",
+          "../../install/**"
         ],
         "defines": [],
         "compilerPath": "/usr/bin/g++",
