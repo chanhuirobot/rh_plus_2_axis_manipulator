@@ -7,7 +7,7 @@
 #include <fcntl.h> // Contains file controls like O_RDWR
 #include <errno.h> //Error integer and strerror() function
 
-#include "rh_plus_2_axis_manipulator/servo_command.hpp"
+#include "servo/servo_command.hpp"
 
 // For list return, we use pointer
 int * read_temp(int servo_count) {
