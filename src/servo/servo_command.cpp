@@ -22,17 +22,14 @@ int * read_temp(int servo_count) {
  struct termios newtio = { 0 };
  tcgetattr(fd, &oldtio);
 
- // Set the baud rate and The other parameters
+ // Set the baud rate(115200) and The other parameters
  newtio.c_cflag = B115200 | CS8 | CLOCAL | CREAD;
  newtio.c_cflag |= CSTOPB; // Set stop field, two stop bits used in communication
- //newtio.c_cflag = CS8 | CLOCAL | CREAD;
  newtio.c_iflag = 0;
  newtio.c_oflag = 0;
  newtio.c_lflag = 0;
  newtio.c_cc[VTIME] = 0;
  newtio.c_cc[VMIN] = 1;
- //cfsetispeed(&newtio, B115200);
- //cfsetospeed(&newtio, B115200);
  tcflush(fd, TCIOFLUSH);
  tcsetattr(fd, TCSANOW, &newtio);
  // Set to non-blocking mode, this will be used when reading the serial port

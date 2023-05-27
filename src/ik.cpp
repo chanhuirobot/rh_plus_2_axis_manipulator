@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <string>
+#include <math.h>
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
@@ -31,24 +32,27 @@ public:
     // by initializing timer_, it cause timer_callback function executes twice a second.
 
     joint_state_subscription_ = this->create_subscription<sensor_msgs::msg::JointState>(
-      "/joint_states",QOS_RKL10V,std::bind(&Ik::topic_callback, this, std::placeholders::_1));
+      "/joint_states",QOS_RKL10V,std::bind(&Ik::ik_angle_callback, this, std::placeholders::_1));
 
     timer_ = this->create_wall_timer(100ms, std::bind(&Ik::timer_callback, this));
   }
 
 private:
 
+  int angles[SERVO_NUM] = {0,};
 
-  void topic_callback(const sensor_msgs::msg::JointState & msg) const
+  void ik_angle_callback(const sensor_msgs::msg::JointState & msg)
   {
 
-    std::stringstream ss;
-    ss << "Received angle from rviz is: ";
-    for (int i=0; i < 10; i++){
-      std::cout << std::to_string(msg.position[i]) << "\t";
-    }
-    std::cout << "\n";
-    // RCLCPP_INFO(this->get_logger(), "%s", ss.str().c_str());
+    // for (int i=0; i < SERVO_NUM; i++){
+    //   std::cout << std::to_string(msg.position[i]) << "\t";
+    // }
+    // std::cout << "\n";
+
+    // for (int i=0; i < SERVO_NUM; i++){
+    //   angles[i] = round(msg.position[i] * 180 / M_PI);
+    // }
+
   }
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_subscription_;
 
@@ -56,14 +60,16 @@ private:
   // RCLCPP_INFO -> Console print
   void timer_callback()
   {
-    int angle[2];
+
+    // 값 설정하기
+    int angles[2];
     std::cout << "desired angle input: ";
-    std::cin >> angle[0] >> angle[1];
+    std::cin >> angles[0] >> angles[1];
 
     auto message = rh_plus_interface::msg::TwoaxisIk();
 
     for (int i=0; i<SERVO_NUM;i++){
-      message.twoaxis_ik.push_back(angle[i]);
+      message.twoaxis_ik.push_back(angles[i]);
     }
     std::stringstream ss;
     ss << " " << message.twoaxis_ik[0] << " " << message.twoaxis_ik[1];

@@ -148,6 +148,6 @@ void AngleControlNode::result_callback(const GoalHandleRotate::WrappedResult & r
       return;
     }
 
-  //rclcpp::shutdown();
+  rclcpp::shutdown();
 }
 

@@ -46,22 +46,22 @@ void ServoControlNode::topic_pub_servo_info()
 {
   auto message = ReadData();
 
-  //int * arr_temp = read_temp(SERVO_NUM);
-  //unsigned short int * arr_angle = read_angle(SERVO_NUM);
+  int * arr_temp = read_temp(SERVO_NUM);
+  unsigned short int * arr_angle = read_angle(SERVO_NUM);
 
-  int arr_temp[2];
-  arr_temp[0] = 20; arr_temp[1] = 22;
-  unsigned short int arr_angle[2];
-  arr_angle[0] = 0x64; arr_angle[1] = 0x56;
+  // int arr_temp[2];
+  // arr_temp[0] = 20; arr_temp[1] = 22;
+  // unsigned short int arr_angle[2];
+  // arr_angle[0] = 0x64; arr_angle[1] = 0x56;
 
   for (int i=0; i<SERVO_NUM; i++){
     message.angle_data.push_back(arr_angle[i]);
     message.temp_data.push_back(arr_temp[i]);
   }
-  RCLCPP_INFO(this->get_logger(), "Servo Information transmit!! temp: %d %d, angle: %d %d",message.temp_data[0], message.temp_data[1], message.angle_data[0], message.angle_data[1]);
+  RCLCPP_INFO(this->get_logger(), "Servo Information transmit!! temp: %d \t %d, angle: %d \t %d",message.temp_data[0], message.temp_data[1], message.angle_data[0], message.angle_data[1]);
   motor_data_pub_->publish(message);
 }
-// string 타입 변환
+
 rclcpp_action::GoalResponse ServoControlNode::handle_goal(
   const rclcpp_action::GoalUUID & uuid,
   std::shared_ptr<const AngleControl::Goal> goal)
@@ -114,7 +114,8 @@ void ServoControlNode::execute(const std::shared_ptr<GoalHandleRotate> goal_hand
 
     // Write_angle(servo ID, Angle)
     for(int j=0; j < SERVO_NUM; j++){
-      //write_angle(j+1,goal->desired_angle/ ROTATION_COUNT);
+      //0xFE(254): BroadCast ID
+      write_angle(254,goal->desired_angle[j] / ROTATION_COUNT * (i+1));
       angle.push_back(goal->desired_angle[j] / ROTATION_COUNT * (i+1));
     }
 
