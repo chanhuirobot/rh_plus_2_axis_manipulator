@@ -4,9 +4,12 @@
 #include <memory>
 #include <string>
 #include <sstream>
+#include <string>
 
 #include "rclcpp/rclcpp.hpp"
+#include "sensor_msgs/msg/joint_state.hpp"
 
+#include "rmw/qos_profiles.h"
 #include "rh_plus_interface/msg/twoaxis_ik.hpp"
 #include "global_variable.hpp"
 
@@ -15,9 +18,8 @@ using namespace std::chrono_literals;
 class Ik : public rclcpp::Node
 {
 public:
-
   using IkAngle = rh_plus_interface::msg::TwoaxisIk;
-  // Node name set and initializes count_ to 0
+  // Node name set
   Ik()
   : Node("ik")
   {
@@ -27,11 +29,29 @@ public:
     // String message type, topic name:"topic", queue size(limit): 10
     publisher_ = this->create_publisher<IkAngle>("ik_result", QOS_RKL10V);
     // by initializing timer_, it cause timer_callback function executes twice a second.
-    timer_ = this->create_wall_timer(
-      100ms, std::bind(&Ik::timer_callback, this));
+
+    joint_state_subscription_ = this->create_subscription<sensor_msgs::msg::JointState>(
+      "/joint_states",QOS_RKL10V,std::bind(&Ik::topic_callback, this, std::placeholders::_1));
+
+    timer_ = this->create_wall_timer(100ms, std::bind(&Ik::timer_callback, this));
   }
 
 private:
+
+
+  void topic_callback(const sensor_msgs::msg::JointState & msg) const
+  {
+
+    std::stringstream ss;
+    ss << "Received angle from rviz is: ";
+    for (int i=0; i < 10; i++){
+      std::cout << std::to_string(msg.position[i]) << "\t";
+    }
+    std::cout << "\n";
+    // RCLCPP_INFO(this->get_logger(), "%s", ss.str().c_str());
+  }
+  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_subscription_;
+
   // message data is set and the messages are actually published.
   // RCLCPP_INFO -> Console print
   void timer_callback()

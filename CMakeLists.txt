@@ -59,7 +59,7 @@ ament_target_dependencies(servo_control_node
 
 add_executable(ik_node src/ik.cpp)
 ament_target_dependencies(ik_node
-  "rh_plus_interface" "rclcpp")
+  "rh_plus_interface" "rclcpp" "sensor_msgs")
 
 # install cpp executables
 install(TARGETS
