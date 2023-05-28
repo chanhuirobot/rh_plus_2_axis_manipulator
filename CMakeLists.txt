@@ -57,7 +57,7 @@ add_executable(servo_control_node
 ament_target_dependencies(servo_control_node
   "rh_plus_interface" "rclcpp" "rclcpp_action")
 
-add_executable(ik_node src/ik.cpp)
+add_executable(ik_node src/ik/ik.cpp)
 ament_target_dependencies(ik_node
   "rh_plus_interface" "rclcpp" "sensor_msgs")
 

@@ -49,9 +49,9 @@ private:
     // }
     // std::cout << "\n";
 
-    // for (int i=0; i < SERVO_NUM; i++){
-    //   angles[i] = round(msg.position[i] * 180 / M_PI);
-    // }
+    for (int i=0; i < SERVO_NUM; i++){
+      angles[i] = round(msg.position[i] * 180 / M_PI);
+    }
 
   }
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_subscription_;
@@ -62,9 +62,9 @@ private:
   {
 
     // 값 설정하기
-    int angles[2];
-    std::cout << "desired angle input: ";
-    std::cin >> angles[0] >> angles[1];
+    // int angles[2];
+    // std::cout << "desired angle input: ";
+    // std::cin >> angles[0] >> angles[1];
 
     auto message = rh_plus_interface::msg::TwoaxisIk();
 
