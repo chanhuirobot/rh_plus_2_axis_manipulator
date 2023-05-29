@@ -2,7 +2,7 @@
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
 cmake_minimum_required(VERSION 3.8)
-project(rh_plus_2_axis_manipulator)
+project(rh_plus_2_axis_manipulator_code)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -67,7 +67,7 @@ ament_python_install_package(${PROJECT_NAME})
 
 # install Python executables
 install(PROGRAMS
-  rh_plus_2_axis_manipulator/vision_process_node.py
+  rh_plus_2_axis_manipulator_code/vision_process_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
