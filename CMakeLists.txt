@@ -25,7 +25,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rh_plus_interface REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rclcpp_action REQUIRED)
 
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
@@ -38,36 +37,30 @@ find_package(image_transport REQUIRED)
 include_directories(include)
 
 add_executable(camera_node
-  src/camera_node.cpp
-  src/usb_camera_driver.cpp)
+  src/camera/camera_node.cpp
+  src/camera/usb_camera_driver.cpp)
 ament_target_dependencies(camera_node
   "rclcpp" "std_msgs" "OpenCV" "sensor_msgs" "camera_info_manager" "image_transport")
 
-add_executable(angular_control_node src/angular_control.cpp)
-ament_target_dependencies(angular_control_node
-  "rh_plus_interface" "rclcpp" "rclcpp_action")
-
 add_executable(servo_control_node
-  src/servo_command.cpp
-  src/servo_control.cpp
+  src/servo/servo_command.cpp
+  src/servo/servo_control.cpp
 )
 ament_target_dependencies(servo_control_node
-  "rh_plus_interface" "rclcpp" "rclcpp_action")
+  "rh_plus_interface" "rclcpp" "sensor_msgs")
+
+add_executable(servo_info_node
+  src/servo/servo_info.cpp)
+ament_target_dependencies(servo_info_node
+  "rh_plus_interface" "rclcpp")
 
 # install cpp executables
 install(TARGETS
   servo_control_node
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(TARGETS
-  angular_control_node
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(TARGETS
   camera_node
-  DESTINATION lib/${PROJECT_NAME})
+  servo_info_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 # install python modules
 ament_python_install_package(${PROJECT_NAME})

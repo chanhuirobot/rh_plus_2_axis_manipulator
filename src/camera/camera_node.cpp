@@ -1,4 +1,4 @@
-#include "rh_plus_2_axis_manipulator/usb_camera_driver.hpp"
+#include "camera/usb_camera_driver.hpp"
 
 int main(int argc, char * argv[])
 {
