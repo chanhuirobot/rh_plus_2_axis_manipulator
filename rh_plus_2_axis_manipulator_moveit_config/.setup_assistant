@@ -1,13 +1,13 @@
 moveit_setup_assistant_config:
   urdf:
-    package: two_axis_manipulator_description
-    relative_path: urdf/two_axis_manipulator.xacro
+    package: rh_plus_2_axis_manipulator_description
+    relative_path: urdf/rh_plus_2_axis_manipulator.xacro
   srdf:
-    relative_path: config/two_axis_manipulator.srdf
+    relative_path: config/rh_plus_2_axis_manipulator.srdf
   package_settings:
     author_name: chanhui
     author_email: chanhui.robot@gmail.com
-    generated_timestamp: 1685276798
+    generated_timestamp: 1685371693
   control_xacro:
     command:
       - position

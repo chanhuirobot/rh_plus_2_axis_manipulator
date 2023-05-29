@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="two_axis_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<robot name="rh_plus_2_axis_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
 <transmission name="joint1_tran">
   <type>transmission_interface/SimpleTransmission</type>

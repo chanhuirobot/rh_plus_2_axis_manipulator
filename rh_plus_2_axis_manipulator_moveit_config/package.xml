@@ -4,7 +4,7 @@
   <name>rh_plus_2_axis_manipulator_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the two_axis_manipulator with the MoveIt Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the rh_plus_2_axis_manipulator with the MoveIt Motion Planning Framework
   </description>
   <maintainer email="chanhui.robot@gmail.com">chanhui</maintainer>
 
@@ -36,12 +36,12 @@
   <exec_depend>moveit_ros_visualization</exec_depend>
   <exec_depend>moveit_ros_warehouse</exec_depend>
   <exec_depend>moveit_setup_assistant</exec_depend>
+  <exec_depend>rh_plus_2_axis_manipulator_description</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>rviz2</exec_depend>
   <exec_depend>rviz_common</exec_depend>
   <exec_depend>rviz_default_plugins</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
-  <exec_depend>two_axis_manipulator_description</exec_depend>
   <exec_depend>warehouse_ros_mongo</exec_depend>
   <exec_depend>xacro</exec_depend>
 

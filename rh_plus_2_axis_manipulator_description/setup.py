@@ -2,7 +2,7 @@ from setuptools import setup
 import os
 from glob import glob
 
-package_name = 'two_axis_manipulator_description'
+package_name = 'rh_plus_2_axis_manipulator_description'
 
 setup(
     name=package_name,
@@ -19,8 +19,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='author',
-    maintainer_email='todo@todo.com',
+    maintainer='chanhuirobot',
+    maintainer_email='chanhuirobot@gmail.com',
     description='The ' + package_name + ' package',
     license='TODO: License declaration',
     tests_require=['pytest'],

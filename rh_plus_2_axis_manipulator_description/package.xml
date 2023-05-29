@@ -3,8 +3,8 @@
 <package format="3">
 <name>rh_plus_2_axis_manipulator_description</name>
   <version>0.0.0</version>
-<description>The two_axis_manipulator_description package</description>
-  <maintainer email="todo@todo.com">author</maintainer>
+<description>The rh_plus_2_axis_manipulator_description package</description>
+  <maintainer email="chanhui.robot@gmail.com">chanhuirobot</maintainer>
   <license>TODO: License declaration</license>
 
   <depend>xacro</depend>
