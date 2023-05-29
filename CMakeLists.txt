@@ -25,7 +25,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rh_plus_interface REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rclcpp_action REQUIRED)
 
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
@@ -43,30 +42,23 @@ add_executable(camera_node
 ament_target_dependencies(camera_node
   "rclcpp" "std_msgs" "OpenCV" "sensor_msgs" "camera_info_manager" "image_transport")
 
-add_executable(angular_control_node
-  src/angular/main.cpp
-  src/angular/angular_control.cpp)
-ament_target_dependencies(angular_control_node
-  "rh_plus_interface" "rclcpp" "rclcpp_action")
-
 add_executable(servo_control_node
-  src/servo/main.cpp
   src/servo/servo_command.cpp
   src/servo/servo_control.cpp
 )
 ament_target_dependencies(servo_control_node
-  "rh_plus_interface" "rclcpp" "rclcpp_action")
-
-add_executable(ik_node src/ik/ik.cpp)
-ament_target_dependencies(ik_node
   "rh_plus_interface" "rclcpp" "sensor_msgs")
+
+add_executable(servo_info_node
+  src/servo/servo_info.cpp)
+ament_target_dependencies(servo_info_node
+  "rh_plus_interface" "rclcpp")
 
 # install cpp executables
 install(TARGETS
   servo_control_node
-  angular_control_node
   camera_node
-  ik_node
+  servo_info_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -2,6 +2,5 @@
 #define GLOBAL_VARIABLE_HPP_
 
 #define SERVO_NUM 2
-#define ROTATION_COUNT 5
 
 #endif
