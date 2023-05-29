@@ -76,7 +76,7 @@ rclcpp_action::GoalResponse ServoControlNode::handle_goal(
     RCLCPP_INFO(this->get_logger(), "%s", ss.str().c_str());
 
     for (int i=0; i < SERVO_NUM; i++){
-      if (goal->desired_angle[i] > 240 || goal->desired_angle[i] < 0){
+      if (goal->desired_angle[i] > 1000 || goal->desired_angle[i] < 0){
         return rclcpp_action::GoalResponse::REJECT;
       }
     }
