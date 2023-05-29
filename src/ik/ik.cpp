@@ -50,7 +50,7 @@ private:
     // std::cout << "\n";
 
     for (int i=0; i < SERVO_NUM; i++){
-      angles[i] = round(msg.position[i] * 180 / M_PI);
+      angles[i] = round(500 + msg.position[i] * 180 / M_PI * 1000 / 240);
     }
 
   }

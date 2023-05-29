@@ -172,7 +172,7 @@ void write_angle(int servo_id, int angle)
 
 
   // There is Maybe an error because it is discarded below the decimal point.
-  angle = angle * 1000 / 240;
+  // angle = angle * 1000 / 240;
 
   // 3. Find value for first digit. ex) 1000(decimal) -> 3E8(hexa): Find 3 digits
   unsigned char servo_num;
