@@ -4,7 +4,7 @@
 <name>rh_plus_2_axis_manipulator_description</name>
   <version>0.0.0</version>
 <description>The rh_plus_2_axis_manipulator_description package</description>
-  <maintainer email="chanhui.robot@gmail.com">chanhuirobot</maintainer>
+  <maintainer email="chanhui.robot@gmail.com">author</maintainer>
   <license>TODO: License declaration</license>
 
   <depend>xacro</depend>
