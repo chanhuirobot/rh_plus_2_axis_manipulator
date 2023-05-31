@@ -59,11 +59,11 @@ int * read_temp(int servo_count) {
   else{
 
     // 8. Read Temperature
-    int read_buffer[4] = {0,};
+    int read_buffer[7] = {0,};
     int ret = read(fd, read_buffer, sizeof(read_buffer));
 
     if (ret > 0){
-      temp_result[i-1] = read_buffer[3];
+      temp_result[i-1] = read_buffer[5];
     }
   }
  }
@@ -127,12 +127,12 @@ unsigned short int * read_angle(int servo_count){
   else{
 
     // 8. Read Temperature
-    unsigned char read_buffer[5] = {0};
+    unsigned char read_buffer[8] = {0};
     int ret = read(fd, read_buffer, sizeof(read_buffer));
 
     if (ret > 0){
       // 2byte -> int
-      angle_result[i-1] = read_buffer[5] << 8 | read_buffer[4];
+      angle_result[i-1] = read_buffer[6] << 8 | read_buffer[5];
     }
   }
  }
