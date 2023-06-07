@@ -33,14 +33,14 @@
       <inertia ixx="2.5e-05" iyy="9.7e-05" izz="8e-05" ixy="-0.0" iyz="-0.0" ixz="-1e-06"/>
     </inertial>
     <visual>
-      <origin xyz="-0.021 -0.015 -0.0472" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="silver"/>
     </visual>
     <collision>
-      <origin xyz="-0.021 -0.015 -0.0472" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -54,14 +54,14 @@
       <inertia ixx="2.4e-05" iyy="9.6e-05" izz="8.2e-05" ixy="-0.0" iyz="0.0" ixz="0.0"/>
     </inertial>
     <visual>
-      <origin xyz="-0.11112 -0.015 -0.0472" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="silver"/>
     </visual>
     <collision>
-      <origin xyz="-0.11112 -0.015 -0.0472" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -75,14 +75,14 @@
       <inertia ixx="1e-06" iyy="1e-06" izz="0.0" ixy="0.0" iyz="-0.0" ixz="0.0"/>
     </inertial>
     <visual>
-      <origin xyz="-0.19094 -0.015 0.0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="silver"/>
     </visual>
     <collision>
-      <origin xyz="-0.19094 -0.015 0.0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
