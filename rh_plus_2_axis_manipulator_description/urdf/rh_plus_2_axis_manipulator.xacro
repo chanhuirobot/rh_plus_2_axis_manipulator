@@ -1,114 +1,115 @@
 <?xml version="1.0" ?>
-<robot name="rh_plus_2_axis_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="rh_plus_2_axis_manipulator"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/materials.xacro" />
-<xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/rh_plus_2_axis_manipulator.trans" />
-<xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/rh_plus_2_axis_manipulator.gazebo" />
-<link name="base_link">
-  <inertial>
-    <origin xyz="0.06651015525077507 0.12061516381510062 -0.020570236379403316" rpy="0 0 0"/>
-    <mass value="0.6681040624387208"/>
-    <inertia ixx="0.00376" iyy="0.005272" izz="0.008817" ixy="-0.000229" iyz="0.000154" ixz="9.6e-05"/>
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+  <xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/rh_plus_2_axis_manipulator.trans" />
+  <xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/rh_plus_2_axis_manipulator.gazebo" />
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.06651015525080728 0.12061516381510094 -0.020570236379403296" rpy="0 0 0"/>
+      <mass value="0.6681040624387203"/>
+      <inertia ixx="0.00376" iyy="0.005272" izz="0.008817" ixy="-0.000229" iyz="0.000154" ixz="9.6e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
 
-<link name="link1">
-  <inertial>
-    <origin xyz="0.025757744162237885 4.978656376053436e-16 -0.025150083898241596" rpy="0 0 0"/>
-    <mass value="0.10098055947342642"/>
-    <inertia ixx="2.5e-05" iyy="9.7e-05" izz="8e-05" ixy="0.0" iyz="-0.0" ixz="-1e-06"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.021 -0.015 -0.0472" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.021 -0.015 -0.0472" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+  <link name="link1">
+    <inertial>
+      <origin xyz="0.025757744162237344 7.806255641895632e-17 -0.02515008389824118" rpy="0 0 0"/>
+      <mass value="0.1009805594734264"/>
+      <inertia ixx="2.5e-05" iyy="9.7e-05" izz="8e-05" ixy="-0.0" iyz="-0.0" ixz="-1e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.021 -0.015 -0.0472" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.021 -0.015 -0.0472" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
 
-<link name="link2">
-  <inertial>
-    <origin xyz="0.026934734885221245 1.44739922689624e-07 -0.025394765305473355" rpy="0 0 0"/>
-    <mass value="0.10799512775205851"/>
-    <inertia ixx="2.4e-05" iyy="9.6e-05" izz="8.2e-05" ixy="-0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.11112 -0.015 -0.0472" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link2.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.11112 -0.015 -0.0472" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link2.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+  <link name="link2">
+    <inertial>
+      <origin xyz="0.02693702142408899 3.5204052693804666e-10 -0.025394767676016155" rpy="0 0 0"/>
+      <mass value="0.10800020556098276"/>
+      <inertia ixx="2.4e-05" iyy="9.6e-05" izz="8.2e-05" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.11112 -0.015 -0.0472" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.11112 -0.015 -0.0472" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
 
-<link name="link3">
-  <inertial>
-    <origin xyz="1.2212453270876722e-15 3.226585665316861e-16 0.021349018258041263" rpy="0 0 0"/>
-    <mass value="0.0038258048079866666"/>
-    <inertia ixx="1e-06" iyy="1e-06" izz="0.0" ixy="0.0" iyz="-0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.19094 -0.015 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.19094 -0.015 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+  <link name="link3">
+    <inertial>
+      <origin xyz="5.6343818499726694e-15 1.5612511283791264e-16 0.021349018258040035" rpy="0 0 0"/>
+      <mass value="0.0038258048079866666"/>
+      <inertia ixx="1e-06" iyy="1e-06" izz="0.0" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.19094 -0.015 0.0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.19094 -0.015 0.0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
 
-<joint name="joint1" type="revolute">
-  <origin xyz="0.021 0.015 0.0472" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="link1"/>
-  <axis xyz="0.0 0.0 -1.0"/>
-  <limit upper="2.094395" lower="-2.094395" effort="100" velocity="5.8178"/>
-</joint>
+  <joint name="joint1" type="revolute">
+    <origin xyz="0.021 0.015 0.0472" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <axis xyz="0.0 0.0 -1.0"/>
+    <limit upper="2.094395" lower="-2.094395" effort="100" velocity="5.8178"/>
+  </joint>
 
-<joint name="joint2" type="revolute">
-  <origin xyz="0.09012 0.0 0.0" rpy="0 0 0"/>
-  <parent link="link1"/>
-  <child link="link2"/>
-  <axis xyz="0.0 0.0 -1.0"/>
-  <limit upper="2.094395" lower="-2.094395" effort="100" velocity="5.8178"/>
-</joint>
+  <joint name="joint2" type="revolute">
+    <origin xyz="0.09012 0.0 0.0" rpy="0 0 0"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+    <axis xyz="0.0 0.0 -1.0"/>
+    <limit upper="2.094395" lower="-2.094395" effort="100" velocity="5.8178"/>
+  </joint>
 
-<joint name="joint3" type="continuous">
-  <origin xyz="0.07982 0.0 -0.0472" rpy="0 0 0"/>
-  <parent link="link2"/>
-  <child link="link3"/>
-  <axis xyz="-0.0 -0.0 1.0"/>
-</joint>
+  <joint name="joint3" type="continuous">
+    <origin xyz="0.07982 0.0 -0.0472" rpy="0 0 0"/>
+    <parent link="link2"/>
+    <child link="link3"/>
+    <axis xyz="0.0 0.0 -1.0"/>
+  </joint>
 
 </robot>

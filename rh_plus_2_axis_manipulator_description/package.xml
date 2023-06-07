@@ -4,7 +4,7 @@
 <name>rh_plus_2_axis_manipulator_description</name>
   <version>0.0.0</version>
 <description>The rh_plus_2_axis_manipulator_description package</description>
-  <maintainer email="chanhui.robot@gmail.com">author</maintainer>
+  <maintainer email="chanhui.robot@gmail.com">chanhui</maintainer>
   <license>TODO: License declaration</license>
 
   <depend>xacro</depend>
@@ -12,11 +12,6 @@
   <depend>robot_state_publisher</depend>
   <depend>joint_state_publisher</depend>
   <depend>joint_state_publisher_gui</depend>
-
-  <test_depend>ament_copyright</test_depend>
-  <test_depend>ament_flake8</test_depend>
-  <test_depend>ament_pep257</test_depend>
-  <test_depend>python3-pytest</test_depend>
 
   <export>
     <build_type>ament_python</build_type>

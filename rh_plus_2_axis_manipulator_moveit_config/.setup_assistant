@@ -7,7 +7,7 @@ moveit_setup_assistant_config:
   package_settings:
     author_name: chanhui
     author_email: chanhui.robot@gmail.com
-    generated_timestamp: 1686056553
+    generated_timestamp: 1686132568
   control_xacro:
     command:
       - position
@@ -17,3 +17,9 @@ moveit_setup_assistant_config:
   modified_urdf:
     xacros:
       - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
