@@ -93,7 +93,7 @@
     <origin xyz="0.021 0.015 0.0472" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="link1"/>
-    <axis xyz="0.0 0.0 -1.0"/>
+    <axis xyz="0 0 -1"/>
     <limit upper="2.094395" lower="-2.094395" effort="100" velocity="5.8178"/>
   </joint>
 
@@ -101,15 +101,16 @@
     <origin xyz="0.09012 0.0 0.0" rpy="0 0 0"/>
     <parent link="link1"/>
     <child link="link2"/>
-    <axis xyz="0.0 0.0 -1.0"/>
+    <axis xyz="0 0 -1"/>
     <limit upper="2.094395" lower="-2.094395" effort="100" velocity="5.8178"/>
   </joint>
 
-  <joint name="joint3" type="continuous">
+  <joint name="joint3" type="revolute">
     <origin xyz="0.07982 0.0 -0.0472" rpy="0 0 0"/>
     <parent link="link2"/>
     <child link="link3"/>
-    <axis xyz="0.0 0.0 -1.0"/>
+    <axis xyz="0 0 -1"/>
+    <limit upper="7.0" lower="-7.0" effort="100" velocity="5.8178"/>
   </joint>
 
 </robot>
