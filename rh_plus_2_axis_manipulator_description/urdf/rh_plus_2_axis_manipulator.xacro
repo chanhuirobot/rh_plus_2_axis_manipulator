@@ -6,11 +6,6 @@
   <xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/rh_plus_2_axis_manipulator.trans" />
   <xacro:include filename="$(find rh_plus_2_axis_manipulator_description)/urdf/rh_plus_2_axis_manipulator.gazebo" />
   <link name="base_link">
-    <inertial>
-      <origin xyz="0.06651015525080728 0.12061516381510094 -0.020570236379403296" rpy="0 0 0"/>
-      <mass value="0.6681040624387203"/>
-      <inertia ixx="0.00376" iyy="0.005272" izz="0.008817" ixy="-0.000229" iyz="0.000154" ixz="9.6e-05"/>
-    </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -27,11 +22,6 @@
   </link>
 
   <link name="link1">
-    <inertial>
-      <origin xyz="0.025757744162237344 7.806255641895632e-17 -0.02515008389824118" rpy="0 0 0"/>
-      <mass value="0.1009805594734264"/>
-      <inertia ixx="2.5e-05" iyy="9.7e-05" izz="8e-05" ixy="-0.0" iyz="-0.0" ixz="-1e-06"/>
-    </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -48,11 +38,6 @@
   </link>
 
   <link name="link2">
-    <inertial>
-      <origin xyz="0.02693702142408899 3.5204052693804666e-10 -0.025394767676016155" rpy="0 0 0"/>
-      <mass value="0.10800020556098276"/>
-      <inertia ixx="2.4e-05" iyy="9.6e-05" izz="8.2e-05" ixy="-0.0" iyz="0.0" ixz="0.0"/>
-    </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -69,11 +54,6 @@
   </link>
 
   <link name="link3">
-    <inertial>
-      <origin xyz="5.6343818499726694e-15 1.5612511283791264e-16 0.021349018258040035" rpy="0 0 0"/>
-      <mass value="0.0038258048079866666"/>
-      <inertia ixx="1e-06" iyy="1e-06" izz="0.0" ixy="0.0" iyz="-0.0" ixz="0.0"/>
-    </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
