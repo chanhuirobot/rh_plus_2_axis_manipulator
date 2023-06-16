@@ -25,11 +25,11 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rh_plus_interface REQUIRED)
 find_package(rclcpp REQUIRED)
-
 find_package(ament_cmake_python REQUIRED)
-find_package(rclpy REQUIRED)
+find_package(moveit_ros_planning_interface REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(cv_bridge REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(camera_info_manager REQUIRED)
 find_package(image_transport REQUIRED)
@@ -42,10 +42,15 @@ add_executable(camera_node
 ament_target_dependencies(camera_node
   "rclcpp" "std_msgs" "OpenCV" "sensor_msgs" "camera_info_manager" "image_transport")
 
+add_executable(vision_process_node
+  src/camera/vision_process_node.cpp)
+ament_target_dependencies(vision_process_node
+  "rclcpp" "OpenCV" "cv_bridge" "moveit_ros_planning_interface")
+
 add_executable(servo_control_node
   src/servo/servo_command.cpp
-  src/servo/servo_control.cpp
-)
+  src/servo/servo_control.cpp)
+
 ament_target_dependencies(servo_control_node
   "rh_plus_interface" "rclcpp" "sensor_msgs")
 
@@ -58,6 +63,7 @@ ament_target_dependencies(servo_info_node
 install(TARGETS
   servo_control_node
   camera_node
+  vision_process_node
   servo_info_node
   DESTINATION lib/${PROJECT_NAME}
 )
@@ -66,10 +72,7 @@ install(TARGETS
 ament_python_install_package(${PROJECT_NAME})
 
 # install Python executables
-install(PROGRAMS
-  rh_plus_2_axis_manipulator_code/vision_process_node.py
-  DESTINATION lib/${PROJECT_NAME}
-)
+# nothing...
 
 # install the launch directory
 install(DIRECTORY

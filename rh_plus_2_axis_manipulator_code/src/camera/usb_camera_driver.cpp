@@ -19,10 +19,8 @@ CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_
 
     camera_id = this->declare_parameter("camera_id", 0);
 
-    // qos 설정
-    rmw_qos_profile_t custom_qos_profile = rmw_qos_profile_sensor_data;
     // 퍼블리셔 설정
-    camera_info_pub_ = image_transport::create_camera_publisher(this, "image", custom_qos_profile);
+    camera_info_pub_ = image_transport::create_camera_publisher(this, "image", rmw_qos_profile_sensor_data);
 
     cinfo_manager_ = std::make_shared<camera_info_manager::CameraInfoManager>(this);
 
