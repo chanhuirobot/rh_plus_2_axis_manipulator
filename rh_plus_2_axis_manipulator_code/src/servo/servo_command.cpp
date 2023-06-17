@@ -12,7 +12,7 @@
 // For list return, we use pointer
 int * read_temp(int servo_count) {
  // 1. Open Serial Port
- int fd = open("/dev/ttyUSB0", O_RDWR);
+ int fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY);
  if (fd < 0) {
     printf("Error %i from open: %s\n", errno, strerror(errno));
  }
@@ -42,7 +42,7 @@ int * read_temp(int servo_count) {
  // Transmittion data (3rd item: servo ID)
  for (int i= 1; i <= servo_count; i++){
   unsigned char j = (unsigned char) i;
-  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x1A,0x00};
+  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x26,0x00};
 
   for (int i=2; i<6;i++){
     checksum += buffer[i];
@@ -57,20 +57,13 @@ int * read_temp(int servo_count) {
     printf("Failed to Send \n");
   }
   else{
-    sleep(0.00034);
-    close(fd);
-    int fd = open("/dev/ttyUSB0", O_RDWR);
-    if (fd < 0) {
-      printf("Error %i from Read open: %s\n", errno, strerror(errno));
-    }
-    sleep(0.005);
 
     // 8. Read Temperature
-    int read_buffer[7] = {0,};
+    int read_buffer[4] = {0,};
     int ret = read(fd, read_buffer, sizeof(read_buffer));
 
-    if (ret > 0 && read_buffer[0] == 0x55 && read_buffer[1] == 0x55 && read_buffer[4] == 0x1A){
-      temp_result[i-1] = read_buffer[5];
+    if (ret > 0){
+      temp_result[i-1] = read_buffer[3];
     }
   }
  }
@@ -84,7 +77,7 @@ int * read_temp(int servo_count) {
 // For list return, we use pointer
 unsigned short int * read_angle(int servo_count){
  // 1. Open Serial Port
- int fd = open("/dev/ttyUSB0", O_RDWR);
+ int fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY);
  if (fd < 0) {
     printf("Error %i from open: %s\n", errno, strerror(errno));
  }
@@ -97,12 +90,14 @@ unsigned short int * read_angle(int servo_count){
  // Set the baud rate and The other parameters
  newtio.c_cflag = B115200 | CS8 | CLOCAL | CREAD;
  newtio.c_cflag |= CSTOPB; // Set stop field, two stop bits used in communication
+ //newtio.c_cflag = CS8 | CLOCAL | CREAD;
  newtio.c_iflag = 0;
  newtio.c_oflag = 0;
  newtio.c_lflag = 0;
  newtio.c_cc[VTIME] = 0;
  newtio.c_cc[VMIN] = 1;
-
+ //cfsetispeed(&newtio, B115200);
+ //cfsetospeed(&newtio, B115200);
  tcflush(fd, TCIOFLUSH);
  tcsetattr(fd, TCSANOW, &newtio);
  // Set to non-blocking mode, this will be used when reading the serial port
@@ -115,7 +110,7 @@ unsigned short int * read_angle(int servo_count){
  // Transmittion data (3rd item: servo ID)
  for (int i= 1; i <= servo_count; i++){
   unsigned char j = (unsigned char) i;
-  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x1C,0x00};
+  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x28,0x00};
 
   for (int i=2; i<6;i++){
     checksum += buffer[i];
@@ -130,20 +125,14 @@ unsigned short int * read_angle(int servo_count){
     printf("Failed to Send \n");
   }
   else{
-    sleep(0.00034);
-    close(fd);
-    int fd = open("/dev/ttyUSB0", O_RDWR);
-    if (fd < 0) {
-      printf("Error %i from Read open: %s\n", errno, strerror(errno));
-    }
-    sleep(0.005);
-    // 8. Read Angle
-    unsigned char read_buffer[8] = {0,};
+
+    // 8. Read Temperature
+    unsigned char read_buffer[5] = {0};
     int ret = read(fd, read_buffer, sizeof(read_buffer));
 
-    if (ret > 0 && read_buffer[0] == 0x55 && read_buffer[1] == 0x55 && read_buffer[4] == 0x1C ){
+    if (ret > 0){
       // 2byte -> int
-      angle_result[i-1] = 0xffff & (read_buffer[5] | 0xff00 & (read_buffer[6] << 8));
+      angle_result[i-1] = read_buffer[5] << 8 | read_buffer[4];
     }
   }
  }
@@ -155,7 +144,7 @@ unsigned short int * read_angle(int servo_count){
 void write_angle(int servo_id, int angle)
 {
   // 1. Open Serial Port
-  int fd = open("/dev/ttyUSB0", O_RDWR);
+  int fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY);
   if (fd < 0) {
     printf("Error %i from open: %s\n", errno, strerror(errno));
   }
@@ -174,11 +163,18 @@ void write_angle(int servo_id, int angle)
   newtio.c_lflag = 0;
   newtio.c_cc[VTIME] = 0;
   newtio.c_cc[VMIN] = 1;
+  //cfsetispeed(&newtio, B115200);
+  //cfsetospeed(&newtio, B115200);
   tcflush(fd, TCIOFLUSH);
   tcsetattr(fd, TCSANOW, &newtio);
   // Set to non-blocking mode, this will be used when reading the serial port
   fcntl(fd, F_SETFL, O_NONBLOCK);
 
+
+  // There is Maybe an error because it is discarded below the decimal point.
+  // angle = angle * 1000 / 240;
+
+  // 3. Find value for first digit. ex) 1000(decimal) -> 3E8(hexa): Find 3 digits
   unsigned char servo_num;
   servo_num = (unsigned char) servo_id;
 

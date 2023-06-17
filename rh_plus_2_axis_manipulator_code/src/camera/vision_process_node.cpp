@@ -5,7 +5,7 @@ VisionNode::VisionNode() : Node("vision_node")
 {
   // QoS 설정, 스브스크라이버 설정
   const auto QOS_RKL10V =
-    rclcpp::QoS(rclcpp::KeepLast(1)).best_effort().durability_volatile();
+    rclcpp::QoS(rclcpp::KeepLast(5)).best_effort().durability_volatile();
   image_subscriber_ = this->create_subscription<sensor_msgs::msg::Image>(
     "/image", QOS_RKL10V, std::bind(&VisionNode::image_process_callback, this, std::placeholders::_1));
 }
@@ -99,7 +99,7 @@ void VisionNode::image_process_callback(sensor_msgs::msg::Image::SharedPtr data)
 
 MoveItController::MoveItController() : Node("moveit_node"){
   // 10초마다 moveit2_controller 발동시키기
-  this->moveit_timer_ = this->create_wall_timer(std::chrono::seconds(12), std::bind(&MoveItController::moveit2_controller, this));
+  this->moveit_timer_ = this->create_wall_timer(std::chrono::seconds(10), std::bind(&MoveItController::moveit2_controller, this));
 
 
 }
@@ -108,10 +108,10 @@ MoveItController::MoveItController() : Node("moveit_node"){
 // 안되면 안된다고 에러 띄우기(ex 닿을 수 있는 거리 밖이면)
 void MoveItController::moveit2_controller(){
   // countdown 구현
-  for(int countdown_num = 10; countdown_num > 0; countdown_num--){
+  /*for(int countdown_num = 10; countdown_num > 0; countdown_num--){
     RCLCPP_INFO(get_logger(), "Countdown for next Moving: %ds / current coord ratio : (%.3f,%.3f)", countdown_num, VisionNode::coord_x_ratio_, VisionNode::coord_y_ratio_);
     rclcpp::sleep_for(std::chrono::seconds(1)); // 1초 딜레이
-  }
+  }*/
 
 
   // 이제 moveit 제어 시작

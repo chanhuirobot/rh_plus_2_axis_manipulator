@@ -50,7 +50,6 @@ ament_target_dependencies(vision_process_node
 add_executable(servo_control_node
   src/servo/servo_command.cpp
   src/servo/servo_control.cpp)
-
 ament_target_dependencies(servo_control_node
   "rh_plus_interface" "rclcpp" "sensor_msgs")
 
@@ -69,7 +68,7 @@ install(TARGETS
 )
 
 # install python modules
-ament_python_install_package(${PROJECT_NAME})
+# ament_python_install_package(${PROJECT_NAME})
 
 # install Python executables
 # nothing...
