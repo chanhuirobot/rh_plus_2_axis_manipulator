@@ -15,7 +15,7 @@ CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_
     // parameter 이름 : my_parameter, 기본값 world
     image_width_ = this->declare_parameter("image_width", 640);
     image_height_ = this->declare_parameter("image_height", 360);
-    fps_ = this->declare_parameter("fps", 10);
+    fps_ = this->declare_parameter("fps", 5);
 
     camera_id = this->declare_parameter("camera_id", 0);
 

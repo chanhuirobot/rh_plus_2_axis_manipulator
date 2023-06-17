@@ -5,7 +5,7 @@ VisionNode::VisionNode() : Node("vision_node")
 {
   // QoS 설정, 스브스크라이버 설정
   const auto QOS_RKL10V =
-    rclcpp::QoS(rclcpp::KeepLast(2)).best_effort().durability_volatile();
+    rclcpp::QoS(rclcpp::KeepLast(1)).best_effort().durability_volatile();
   image_subscriber_ = this->create_subscription<sensor_msgs::msg::Image>(
     "/image", QOS_RKL10V, std::bind(&VisionNode::image_process_callback, this, std::placeholders::_1));
 }
@@ -16,10 +16,10 @@ void VisionNode::image_process_callback(sensor_msgs::msg::Image::SharedPtr data)
   cv::Mat img = cv_bridge::toCvShare(data, "bgr8")->image;
 
   // 먼저 이미지 필요없는 부분들 잘라내기(화이트보드만 나오도록)
-  int output_width = 600;
-  int output_height = 600;
+  int output_width = 350;
+  int output_height = 350;
   // Warping 전의 이미지 상의 좌표. 좌상, 우상, 우하, 좌하 (시계 방향으로 4 지점 정의)
-  cv::Point2f corners[4] = {cv::Point2f(50, 50), cv::Point2f(500, 50), cv::Point2f(500, 300), cv::Point2f(50, 300)};
+  cv::Point2f corners[4] = {cv::Point2f(175, 30), cv::Point2f(445, 32), cv::Point2f(444, 341), cv::Point2f(172, 341)};
   // Warping 후의 좌표
   cv::Point2f warpCorners[4] = {cv::Point2f(0, 0), cv::Point2f(output_width, 0), cv::Point2f(output_width, output_height), cv::Point2f(0, output_height)};
   cv::Size warpSize(output_width, output_height);
@@ -75,10 +75,9 @@ void VisionNode::image_process_callback(sensor_msgs::msg::Image::SharedPtr data)
   cv::circle(img_warp, cv::Point(center_x, center_y), 4, cv::Scalar(0,255,0), -1);
 
   // 화면 출력
-  cv::imshow("original", img); // 원본 화면 : 필요시 활성화
+  // cv::imshow("original", img); // 원본 화면 : 필요시 활성화
   cv::imshow("cropped", img_warp);
   // cv::imshow("mask", img_end); // 이미지 후처리 화면 : 필요시 활성화
-  cv::waitKey(1);
 
   // 원했던 목표 : 좌표 비율 구하고 적용해주기 -> 최신화 완료
   coord_x_ratio_ = (double)center_x / (double)output_width;
@@ -100,7 +99,7 @@ void VisionNode::image_process_callback(sensor_msgs::msg::Image::SharedPtr data)
 
 MoveItController::MoveItController() : Node("moveit_node"){
   // 10초마다 moveit2_controller 발동시키기
-  this->moveit_timer_ = this->create_wall_timer(std::chrono::seconds(10), std::bind(&MoveItController::moveit2_controller, this));
+  this->moveit_timer_ = this->create_wall_timer(std::chrono::seconds(12), std::bind(&MoveItController::moveit2_controller, this));
 
 
 }
@@ -109,10 +108,10 @@ MoveItController::MoveItController() : Node("moveit_node"){
 // 안되면 안된다고 에러 띄우기(ex 닿을 수 있는 거리 밖이면)
 void MoveItController::moveit2_controller(){
   // countdown 구현
-  /*for(int countdown_num = 10; countdown_num > 0; countdown_num--){
-    RCLCPP_INFO(logger, "Countdown for next Moving: %ds / current coord ratio : (%.3f,%.3f)", countdown_num, coord_x_ratio_, coord_y_ratio_);
+  for(int countdown_num = 10; countdown_num > 0; countdown_num--){
+    RCLCPP_INFO(get_logger(), "Countdown for next Moving: %ds / current coord ratio : (%.3f,%.3f)", countdown_num, VisionNode::coord_x_ratio_, VisionNode::coord_y_ratio_);
     rclcpp::sleep_for(std::chrono::seconds(1)); // 1초 딜레이
-  }*/
+  }
 
 
   // 이제 moveit 제어 시작
