@@ -5,9 +5,9 @@ VisionNode::VisionNode() : Node("vision_node")
 {
   // QoS 설정, 스브스크라이버 설정
   const auto QOS_RKL10V =
-    rclcpp::QoS(rclcpp::KeepLast(10)).best_effort().durability_volatile();
+    rclcpp::QoS(rclcpp::KeepLast(2)).best_effort().durability_volatile();
   image_subscriber_ = this->create_subscription<sensor_msgs::msg::Image>(
-    "/image/compressed", QOS_RKL10V, std::bind(&VisionNode::image_process_callback, this, std::placeholders::_1));
+    "/image", QOS_RKL10V, std::bind(&VisionNode::image_process_callback, this, std::placeholders::_1));
 }
 
 // 이미지 수신, 좌표 추적(멤버 변수로 있는 좌표 최신화)
@@ -19,7 +19,7 @@ void VisionNode::image_process_callback(sensor_msgs::msg::Image::SharedPtr data)
   int output_width = 600;
   int output_height = 600;
   // Warping 전의 이미지 상의 좌표. 좌상, 우상, 우하, 좌하 (시계 방향으로 4 지점 정의)
-  cv::Point2f corners[4] = {cv::Point2f(349, 65), cv::Point2f(887, 67), cv::Point2f(889, 682), cv::Point2f(347, 682)};
+  cv::Point2f corners[4] = {cv::Point2f(50, 50), cv::Point2f(500, 50), cv::Point2f(500, 300), cv::Point2f(50, 300)};
   // Warping 후의 좌표
   cv::Point2f warpCorners[4] = {cv::Point2f(0, 0), cv::Point2f(output_width, 0), cv::Point2f(output_width, output_height), cv::Point2f(0, output_height)};
   cv::Size warpSize(output_width, output_height);
@@ -75,7 +75,7 @@ void VisionNode::image_process_callback(sensor_msgs::msg::Image::SharedPtr data)
   cv::circle(img_warp, cv::Point(center_x, center_y), 4, cv::Scalar(0,255,0), -1);
 
   // 화면 출력
-  // cv::imshow("original", img); // 원본 화면 : 필요시 활성화
+  cv::imshow("original", img); // 원본 화면 : 필요시 활성화
   cv::imshow("cropped", img_warp);
   // cv::imshow("mask", img_end); // 이미지 후처리 화면 : 필요시 활성화
   cv::waitKey(1);
