@@ -12,9 +12,9 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='rh_plus_2_axis_manipulator_code',
-            namespace='servo_info',
+            # namespace='servo_info',
             executable='servo_info_node',
-            name='servo_info',
+            # name='servo_info',
             output='screen',
             prefix='lxterminal -e'
         ),

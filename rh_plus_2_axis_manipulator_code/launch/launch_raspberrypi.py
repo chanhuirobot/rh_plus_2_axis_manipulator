@@ -12,7 +12,7 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='rh_plus_2_axis_manipulator_code',
-            namespace='camera',
+            # namespace='camera',
             executable='camera_node',
             name='camera',
             # output='screen',
@@ -20,7 +20,7 @@ def generate_launch_description():
         ),
         Node(
             package='rh_plus_2_axis_manipulator_code',
-            namespace='servo_control',
+            # namespace='servo_control',
             executable='servo_control_node',
             name='servo_control',
             # output='screen',

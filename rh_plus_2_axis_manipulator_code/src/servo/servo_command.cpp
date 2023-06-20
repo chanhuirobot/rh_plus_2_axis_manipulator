@@ -42,7 +42,7 @@ int * read_temp(int servo_count) {
  // Transmittion data (3rd item: servo ID)
  for (int i= 1; i <= servo_count; i++){
   unsigned char j = (unsigned char) i;
-  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x26,0x00};
+  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x1A,0x00};
 
   for (int i=2; i<6;i++){
     checksum += buffer[i];
@@ -57,9 +57,10 @@ int * read_temp(int servo_count) {
     printf("Failed to Send \n");
   }
   else{
-
+    sleep(0.00034);
+    sleep(0.005);
     // 8. Read Temperature
-    int read_buffer[4] = {0,};
+    int read_buffer[7] = {0,};
     int ret = read(fd, read_buffer, sizeof(read_buffer));
 
     if (ret > 0){
@@ -67,7 +68,7 @@ int * read_temp(int servo_count) {
     }
   }
  }
-
+ close(fd);
  return temp_result;
 }
 
@@ -110,7 +111,7 @@ unsigned short int * read_angle(int servo_count){
  // Transmittion data (3rd item: servo ID)
  for (int i= 1; i <= servo_count; i++){
   unsigned char j = (unsigned char) i;
-  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x28,0x00};
+  unsigned char buffer[6] = {0x55,0x55,j,0x03,0x1C,0x00};
 
   for (int i=2; i<6;i++){
     checksum += buffer[i];
@@ -125,17 +126,18 @@ unsigned short int * read_angle(int servo_count){
     printf("Failed to Send \n");
   }
   else{
-
+    sleep(0.00034);
+    sleep(0.005);
     // 8. Read Temperature
-    unsigned char read_buffer[5] = {0};
+    unsigned char read_buffer[8] = {0};
     int ret = read(fd, read_buffer, sizeof(read_buffer));
 
     if (ret > 0){
       // 2byte -> int
-      angle_result[i-1] = read_buffer[5] << 8 | read_buffer[4];
-    }
+      angle_result[i-1] = 0xffff & (read_buffer[5] | 0xff00 & (read_buffer[6] << 8));    }
   }
  }
+ close(fd);
   return angle_result;
 }
 
