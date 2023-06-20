@@ -58,12 +58,24 @@ add_executable(servo_info_node
 ament_target_dependencies(servo_info_node
   "rh_plus_interface" "rclcpp")
 
+add_executable(user_coord_input_node
+  src/controller/user_coord_input_node.cpp)
+ament_target_dependencies(user_coord_input_node
+  "rclcpp" "moveit_ros_planning_interface")
+
+add_executable(rectangle_drawing_node
+  src/controller/rectangle_drawing_node.cpp)
+ament_target_dependencies(rectangle_drawing_node
+  "rclcpp" "moveit_ros_planning_interface")
+
 # install cpp executables
 install(TARGETS
   servo_control_node
   camera_node
   vision_process_node
   servo_info_node
+  user_coord_input_node
+  rectangle_drawing_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
