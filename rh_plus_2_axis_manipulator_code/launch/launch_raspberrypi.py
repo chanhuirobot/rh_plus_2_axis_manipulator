@@ -12,17 +12,15 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='rh_plus_2_axis_manipulator_code',
-            # namespace='camera',
             executable='camera_node',
-            name='camera',
+            name='camera_node',
             # output='screen',
             # prefix='lxterminal -e'
         ),
         Node(
             package='rh_plus_2_axis_manipulator_code',
-            # namespace='servo_control',
             executable='servo_control_node',
-            name='servo_control',
+            name='servo_control_node',
             # output='screen',
             # prefix='lxterminal -e'
         )
