@@ -1,4 +1,3 @@
-
 #include <chrono>
 #include <memory>
 #include <functional>
@@ -14,6 +13,8 @@
 #include "servo/servo_command.hpp"
 #include "global_variable.hpp"
 #include "servo/servo_control.hpp"
+
+
 
 ServoControlNode::ServoControlNode(const rclcpp::NodeOptions & options)
 : Node("motor_control", options)
@@ -64,15 +65,13 @@ void ServoControlNode::servo_info_pub()
 
   int * arr_temp = read_temp(SERVO_NUM);
   unsigned short int * arr_angle = read_angle(SERVO_NUM);
-
   for (int i=0; i<SERVO_NUM; i++){
     message.angle_data.push_back(arr_angle[i]);
     message.temp_data.push_back(arr_temp[i]);
   }
-  RCLCPP_INFO(this->get_logger(), "Servo Information transmit!! temp: %d \t %d, angle: %d \t %d \n",message.temp_data[0], message.temp_data[1], message.angle_data[0], message.angle_data[1]);
+  RCLCPP_INFO(this->get_logger(), "Servo Information transmit!! temp: %d  %d, angle: %d  %d \n",message.temp_data[0], message.temp_data[1], message.angle_data[0], message.angle_data[1]);
   motor_data_pub_->publish(message);
 }
-
 
 
 // Node actually executes
@@ -85,4 +84,3 @@ int main(int argc, char * argv[])
   rclcpp::shutdown();
   return 0;
 }
-
