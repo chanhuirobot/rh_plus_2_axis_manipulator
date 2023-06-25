@@ -35,8 +35,8 @@ void VisionNode::image_process_callback(sensor_msgs::msg::Image::SharedPtr data)
   cv::cvtColor(img_warp, img_hsv, cv::COLOR_BGR2HSV);
   // 이제 빨간색만 추출해서 img_red에 저장
   int hue_red = 0;
-  cv::Scalar lower_red = cv::Scalar(hue_red-4, 150, 60);
-	cv::Scalar upper_red = cv::Scalar(hue_red+10, 255, 150);
+  cv::Scalar lower_red = cv::Scalar(hue_red-4, 100, 60);
+	cv::Scalar upper_red = cv::Scalar(hue_red+10, 255, 255);
   cv::Mat img_red;
 	inRange(img_hsv, lower_red, upper_red, img_red);
 
