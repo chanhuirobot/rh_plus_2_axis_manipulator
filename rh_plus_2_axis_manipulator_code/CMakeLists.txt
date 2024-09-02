@@ -23,7 +23,6 @@ endif()
 # Find and load build settings from external packages
 ################################################################################
 find_package(ament_cmake REQUIRED)
-find_package(rh_plus_interface REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
@@ -47,17 +46,6 @@ add_executable(vision_process_node
 ament_target_dependencies(vision_process_node
   "rclcpp" "OpenCV" "cv_bridge" "moveit_ros_planning_interface")
 
-add_executable(servo_control_node
-  src/servo/servo_command.cpp
-  src/servo/servo_control.cpp)
-ament_target_dependencies(servo_control_node
-  "rh_plus_interface" "rclcpp" "sensor_msgs")
-
-add_executable(servo_info_node
-  src/servo/servo_info.cpp)
-ament_target_dependencies(servo_info_node
-  "rh_plus_interface" "rclcpp")
-
 add_executable(user_coord_input_node
   src/controller/user_coord_input_node.cpp)
 ament_target_dependencies(user_coord_input_node
@@ -70,10 +58,8 @@ ament_target_dependencies(rectangle_drawing_node
 
 # install cpp executables
 install(TARGETS
-  servo_control_node
   camera_node
   vision_process_node
-  servo_info_node
   user_coord_input_node
   rectangle_drawing_node
   DESTINATION lib/${PROJECT_NAME}

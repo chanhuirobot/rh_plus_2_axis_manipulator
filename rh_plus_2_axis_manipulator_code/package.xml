@@ -13,7 +13,6 @@
   <exec_depend>ros2launch</exec_depend>
 
   <depend>rclcpp</depend>
-  <depend>rh_plus_interface</depend>
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
   <depend>OpenCV</depend>
