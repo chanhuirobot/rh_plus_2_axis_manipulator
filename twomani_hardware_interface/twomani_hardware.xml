@@ -1,0 +1,9 @@
+<library path="twomani_hardware_interface">
+  <class name="twomani_hardware/TWOManiSystemHardware"
+         type="twomani_hardware::TWOManiSystemHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      ROS2 control for TWOMani.
+    </description>
+  </class>
+</library>
