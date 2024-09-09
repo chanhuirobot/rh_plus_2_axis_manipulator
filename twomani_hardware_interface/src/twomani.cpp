@@ -14,10 +14,6 @@
 
 #define MAX_STR 255
 #define INVALID_POS 99999 // Invalid servo value
-#define A 0.026000
-#define B 0.031000
-#define C 0.010048
-#define D 0.001552
 
 const float RAD_RANGE = (240.0 / 180.0) * M_PI;
 const int UPDATE_PERIOD_MOVING_MS = 10; // (1000ms/100Hz) = 10ms
@@ -36,7 +32,7 @@ const std::string MANUAL_MODE_ENABLE_FILE = "/tmp/twomani_enable_manual_mode";
 
 const int FIRST_SET_MOVE_TIME = 1500;
 
-const int NUM_JOINTS = 7;
+const int NUM_JOINTS = 2;
 
 const std::string SERIAL_DEV = "/dev/ttyUSB0";
 
@@ -91,23 +87,13 @@ namespace twomani
 			return false;
 		}
 
-		joint_name_map_.insert(std::make_pair("revolute_1", 1));
-		joint_name_map_.insert(std::make_pair("revolute_2", 2));
-		joint_name_map_.insert(std::make_pair("revolute_3", 3));
-		joint_name_map_.insert(std::make_pair("revolute_4", 4));
-		joint_name_map_.insert(std::make_pair("revolute_5", 5));
-		joint_name_map_.insert(std::make_pair("revolute_6", 6));
-		joint_name_map_.insert(std::make_pair("slider_1", 7));
+		joint_name_map_.insert(std::make_pair("joint1", 1));
+		joint_name_map_.insert(std::make_pair("joint2", 2));
 
 		// range
-		// 										rad   min  max  mid   invert
-		joint_range_limits_["revolute_1"] = {RAD_RANGE, 0, 1000, 500, 1};
-		joint_range_limits_["revolute_2"] = {RAD_RANGE, 0, 1000, 500, 1};
-		joint_range_limits_["revolute_3"] = {RAD_RANGE, 0, 1000, 500, 1};
-		joint_range_limits_["revolute_4"] = {RAD_RANGE, 0, 1000, 500, 1};
-		joint_range_limits_["revolute_5"] = {RAD_RANGE, 0, 1000, 500, 1};
-		joint_range_limits_["revolute_6"] = {RAD_RANGE, 0, 1000, 500, 1};
-		joint_range_limits_["slider_1"] = {RAD_RANGE, 0, 1000, 500, 1};
+		// 									rad   min  max  mid   invert
+		joint_range_limits_["joint1"] = {RAD_RANGE, 0, 1000, 500, 1};
+		joint_range_limits_["joint2"] = {RAD_RANGE, 0, 1000, 500, 1};
 
 		RCLCPP_INFO(rclcpp::get_logger("TWOManiSystemHardware"), "Joint limits:");
 
@@ -214,19 +200,8 @@ namespace twomani
 	{
 		double position = 0.0;
 
-		// 그리퍼 연산
-		if (joint_name == "slider_1")
-		{
-			// 일단 jointValue를 radia 단위인 angle로..!
-			double angle = convertUnitToRad(joint_name, jointValue);
+		position = convertUnitToRad(joint_name, jointValue);
 
-			// 이제 angle을 거리(m)로 바꾸자
-			position = std::sqrt(B * B - (A * std::cos(angle) - C) * (A * std::cos(angle) - C)) + A * std::sin(angle) - std::sqrt(B * B - (A - C) * (A - C)) + D;
-		}
-		else
-		{
-			position = convertUnitToRad(joint_name, jointValue);
-		}
 		return position;
 	}
 
@@ -236,25 +211,8 @@ namespace twomani
 	{
 		int jointValue = 0;
 
-		// 그리퍼
-		if (joint_name == "slider_1")
-		{
-			// 거리(m) -> 각도(rad)
-			// 변수 y 정의
-			double y = position + std::sqrt(B * B - (A - C) * (A - C)) - D;
+		jointValue = int(convertRadToUnit(joint_name, position));
 
-			// y의 연산을 통한 angle 계산
-			double angle = std::asin((y * y + A * A + C * C - B * B) / (2 * A * std::sqrt(y * y + C * C))) -
-						   std::asin(C / std::sqrt(y * y + C * C));
-
-			// radian 값으로 받은 angle 값을 jointValue로 변환
-			jointValue = int(convertRadToUnit(joint_name, angle));
-		}
-		// 일반 조인트
-		else
-		{
-			jointValue = int(convertRadToUnit(joint_name, position));
-		}
 		return jointValue;
 	}
 

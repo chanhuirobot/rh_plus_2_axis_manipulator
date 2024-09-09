@@ -1,33 +1,39 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="rh_plus_2_axis_manipulator_ros2_control" params="name initial_positions_file">
+    <xacro:macro name="rh_plus_2_axis_manipulator_ros2_control" params="name initial_positions_file ros2_control_hardware_type">
         <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}"/>
 
         <ros2_control name="${name}" type="system">
             <hardware>
-                <!-- By default, set up controllers for simulation. This won't work on real hardware -->
-                <plugin>mock_components/GenericSystem</plugin>
+                <xacro:if value="${ros2_control_hardware_type == 'fake'}">
+                    <plugin>mock_components/GenericSystem</plugin>
+                </xacro:if>
+                <xacro:if value="${ros2_control_hardware_type == 'real'}">
+                    <plugin>twomani_hardware/TWOManiSystemHardware</plugin>
+                    <param name="example_param_hw_start_duration_sec">0.0</param>
+                    <param name="example_param_hw_stop_duration_sec">0.0</param>
+                    <param name="example_param_hw_slowdown">100</param>
+                </xacro:if>
             </hardware>
+
+            <!--arm-->
             <joint name="joint1">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['joint1']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
             <joint name="joint2">
                 <command_interface name="position"/>
                 <state_interface name="position">
-                  <param name="initial_value">${initial_positions['joint2']}</param>
+                  <param name="initial_value">${initial_positions['joint1']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
             <joint name="joint3">
                 <command_interface name="position"/>
                 <state_interface name="position">
-                  <param name="initial_value">${initial_positions['joint3']}</param>
+                  <param name="initial_value">${initial_positions['joint1']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
 
         </ros2_control>
