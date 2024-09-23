@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot name="rh_plus_2_axis_manipulator">
-
+   
     <group name="arm">
+        <joint name="virtual_joint"/>
         <link name="base_link"/>
         <link name="link1"/>
         <link name="link2"/>
+        <link name="link3"/>
         <joint name="joint1"/>
         <joint name="joint2"/>
-        <chain base_link="base_link" tip_link="link2"/>
+        <joint name="joint3"/>
+        <chain base_link="base_link" tip_link="link3"/>
     </group>
-
+    
     <group_state name="rest" group="arm">
-        <joint name="joint1" value="0.0"/>
-        <joint name="joint2" value="0.0"/>
+        <joint name="joint1" value="0"/>
+        <joint name="joint2" value="0"/>
+        <joint name="joint3" value="0"/>
     </group_state>
-
-    <end_effector name="end_effector" parent_link="link2" group="arm"/>
-
+    
+    <end_effector name="end_effector" parent_link="link3" group="arm"/>
+    
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>
+    
 
     <disable_collisions link1="base_link" link2="link1" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="link2" reason="Never"/>
+    <disable_collisions link1="base_link" link2="link3" reason="Never"/>
     <disable_collisions link1="link1" link2="link2" reason="Adjacent"/>
+    <disable_collisions link1="link1" link2="link3" reason="Never"/>
+    <disable_collisions link1="link2" link2="link3" reason="Adjacent"/>
 </robot>

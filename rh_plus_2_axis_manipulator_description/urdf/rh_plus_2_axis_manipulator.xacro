@@ -53,6 +53,22 @@
     </collision>
   </link>
 
+  <link name="link3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find rh_plus_2_axis_manipulator_description)/meshes/link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
   <joint name="joint1" type="revolute">
     <origin xyz="0.021 0.015 0.0472" rpy="0 0 0"/>
     <parent link="base_link"/>
@@ -68,4 +84,12 @@
     <axis xyz="0 0 -1"/>
     <limit upper="2.094395" lower="-2.094395" effort="100" velocity="5.8178"/>
   </joint>
+
+  <joint name="joint3" type="continuous">
+    <origin xyz="0.07982 0.0 -0.0472" rpy="0 0 0"/>
+    <parent link="link2"/>
+    <child link="link3"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+
 </robot>
