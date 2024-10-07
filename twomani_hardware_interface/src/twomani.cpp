@@ -89,13 +89,11 @@ namespace twomani
 
 		joint_name_map_.insert(std::make_pair("joint1", 1));
 		joint_name_map_.insert(std::make_pair("joint2", 2));
-		joint_name_map_.insert(std::make_pair("joint3", 3));
 
 		// range
 		// 									rad   min  max  mid   invert
 		joint_range_limits_["joint1"] = {RAD_RANGE, 0, 1000, 500, 1};
 		joint_range_limits_["joint2"] = {RAD_RANGE, 0, 1000, 500, 1};
-		joint_range_limits_["joint3"] = {RAD_RANGE, 0, 1000, 500, 1};
 
 		RCLCPP_INFO(rclcpp::get_logger("TWOManiSystemHardware"), "Joint limits:");
 

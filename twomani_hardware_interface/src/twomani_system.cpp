@@ -179,7 +179,7 @@ hardware_interface::return_type TWOManiSystemHardware::read(const rclcpp::Time &
   std::vector<double> positions;
   twomani.getAllJointPositions(positions, hw_joint_name_);
 
-  for (uint i = 0; i < (hw_states_.size() - 1); i++) // joint 개수보다 하나 적게 read
+  for (uint i = 0; i < hw_states_.size(); i++)
   {
 	  if (hw_states_[i] != positions[i])
 	  {
@@ -189,16 +189,6 @@ hardware_interface::return_type TWOManiSystemHardware::read(const rclcpp::Time &
 			  hw_states_[i], hw_joint_name_[i].c_str(), i);
 	  }
   }
-
-  // 가상 조인트 3번.
-	uint i = hw_states_.size() - 1; // 3번
-	double new_state = hw_states_[i] + (hw_commands_[i] - hw_states_[i]) / hw_slowdown_;
-	  if ( new_state != hw_states_[i]) {
-	  	hw_states_[i] = new_state;
-		RCLCPP_DEBUG(
-		  rclcpp::get_logger("RRBotSystemPositionOnlyHardware"), "New state %.5f for joint %d!",
-		  hw_states_[i], i);
-	  }
 
   return hardware_interface::return_type::OK;
 }
