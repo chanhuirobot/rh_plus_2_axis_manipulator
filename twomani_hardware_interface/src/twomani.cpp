@@ -89,11 +89,13 @@ namespace twomani
 
 		joint_name_map_.insert(std::make_pair("joint1", 1));
 		joint_name_map_.insert(std::make_pair("joint2", 2));
+		joint_name_map_.insert(std::make_pair("joint3", 3));
 
 		// range
 		// 									rad   min  max  mid   invert
 		joint_range_limits_["joint1"] = {RAD_RANGE, 0, 1000, 500, 1};
 		joint_range_limits_["joint2"] = {RAD_RANGE, 0, 1000, 500, 1};
+		joint_range_limits_["joint3"] = {RAD_RANGE, 0, 1000, 500, 1};
 
 		RCLCPP_INFO(rclcpp::get_logger("TWOManiSystemHardware"), "Joint limits:");
 
@@ -129,7 +131,7 @@ namespace twomani
 		std::lock_guard<std::mutex> guard(mutex_);
 		if (std::isfinite(commands[0]) == 1)
 		{
-			for (uint i = 0; i < commands.size(); i++)
+			for (uint i = 0; i < commands.size() - 1; i++) // joint 개수보다 하나 적게 write
 			{
 				const std::string &name = joints[i];
 
@@ -160,7 +162,7 @@ namespace twomani
 	void twomani::getAllJointPositions(std::vector<double> &positions, const std::vector<std::string> &joints)
 	{
 		std::lock_guard<std::mutex> guard(mutex_);
-		for (uint i = 0; i < joints.size(); i++)
+		for (uint i = 0; i < joints.size() - 1; i++) // joint 개수보다 하나 적게 read
 		{
 			positions.push_back(jointValueToPosition(joints[i], last_pos_get_map_[joints[i]].pos));
 			RCLCPP_DEBUG(rclcpp::get_logger("TWOManiSystemHardware"), "Get cur pos %*s %s: %.5f",
