@@ -56,12 +56,24 @@ add_executable(rectangle_drawing_node
 ament_target_dependencies(rectangle_drawing_node
   "rclcpp" "moveit_ros_planning_interface")
 
+add_executable(triangle_drawing_node
+  src/controller/triangle_drawing_node.cpp)
+ament_target_dependencies(triangle_drawing_node
+  "rclcpp" "moveit_ros_planning_interface")
+
+add_executable(hakjum_drawing_node
+  src/controller/hakjum_drawing_node.cpp)
+ament_target_dependencies(hakjum_drawing_node
+  "rclcpp" "moveit_ros_planning_interface")
+
 # install cpp executables
 install(TARGETS
   camera_node
   vision_process_node
   user_coord_input_node
   rectangle_drawing_node
+  triangle_drawing_node
+  hakjum_drawing_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
