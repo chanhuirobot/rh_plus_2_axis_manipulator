@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <dirent.h>
+#include <regex>
+#include <algorithm>
+#include <iostream>
 #include "rclcpp/rclcpp.hpp"
 
 #include "std_msgs/msg/string.hpp"
@@ -48,6 +52,7 @@ private:
 
     // 함수 선언. 근데 왜 대문자 시작하지? 대문자 시작하면 클래스 아닌가? 허허
     std::shared_ptr<sensor_msgs::msg::Image> ConvertFrameToMessage(cv::Mat & frame);
+    int GetMaxCameraId();
 
     void ImageCallback();
 };

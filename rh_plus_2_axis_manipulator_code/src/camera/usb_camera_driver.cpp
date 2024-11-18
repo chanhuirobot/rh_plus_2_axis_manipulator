@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <memory>
 #include <string>
-
 #include "camera/usb_camera_driver.hpp"
 
 using namespace std::chrono_literals;
@@ -17,7 +16,9 @@ CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_
     image_height_ = this->declare_parameter("image_height", 360);
     fps_ = this->declare_parameter("fps", 5);
 
-    camera_id = this->declare_parameter("camera_id", 0);
+
+    int camera_id_max = CameraDriver::GetMaxCameraId(); // 컴퓨터에 연결된 카메라 ID 최댓값 가져오기
+    camera_id = this->declare_parameter("camera_id", camera_id_max-1);
 
     // 퍼블리셔 설정
     camera_info_pub_ = image_transport::create_camera_publisher(this, "image", rmw_qos_profile_sensor_data);
@@ -39,6 +40,35 @@ CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_
 
     timer_ = this->create_wall_timer(1ms, std::bind(&CameraDriver::ImageCallback, this));
 }
+
+int CameraDriver::GetMaxCameraId() {
+    int max_id = -1; // 카메라가 없을 경우 -1 반환
+    std::regex video_regex(R"(video(\d+))"); // /dev/videoX에서 숫자 추출 정규식
+
+    DIR* dir = opendir("/dev");
+    if (dir == nullptr) {
+        perror("opendir failed");
+        return max_id;
+    }
+
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != nullptr) {
+        std::string filename(entry->d_name);
+
+        // "videoX" 형식인지 확인
+        std::smatch match;
+        if (std::regex_match(filename, match, video_regex)) {
+            int id = std::stoi(match[1].str()); // "videoX"에서 숫자 추출
+            max_id = std::max(max_id, id);     // 최댓값 갱신
+        }
+    }
+
+    closedir(dir);
+    return max_id;
+}
+
+
+
 
 std::shared_ptr<sensor_msgs::msg::Image> CameraDriver::ConvertFrameToMessage(cv::Mat &frame)
 {
